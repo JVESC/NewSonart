@@ -1,12 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package Telas_Perfil;
+import com.formdev.flatlaf.FlatDarkLaf;
+import javax.swing.JOptionPane;
 
 /**
  *
- * @author aluno
+ * @author JVESC e EMILLYLETC
  */
 public class Tela_Inicio extends javax.swing.JFrame {
 
@@ -15,6 +14,9 @@ public class Tela_Inicio extends javax.swing.JFrame {
      */
     public Tela_Inicio() {
         initComponents();
+        jBCadastrar.putClientProperty("FlatLaf.style", "arc: 30");
+ 
+        jBLogin.putClientProperty("FlatLaf.style", "arc: 30");
     }
 
     /**
@@ -35,15 +37,15 @@ public class Tela_Inicio extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
-        jLabelCadastrar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabelCadastrar.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabelCadastrar.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabelCadastrar.setText("Ainda não tem uma conta?");
 
-        jLabelLogin.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabelLogin.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLabelLogin.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabelLogin.setText("Já tem uma conta?");
 
-        jBCadastrar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jBCadastrar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jBCadastrar.setText("Cadastro");
         jBCadastrar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jBCadastrar.addActionListener(new java.awt.event.ActionListener() {
@@ -52,7 +54,7 @@ public class Tela_Inicio extends javax.swing.JFrame {
             }
         });
 
-        jBLogin.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jBLogin.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jBLogin.setText("Login");
         jBLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jBLogin.addActionListener(new java.awt.event.ActionListener() {
@@ -61,7 +63,7 @@ public class Tela_Inicio extends javax.swing.JFrame {
             }
         });
 
-        jLabelTitulo.setFont(new java.awt.Font("Cantarell", 1, 36)); // NOI18N
+        jLabelTitulo.setFont(new java.awt.Font("Cantarell", 1, 48)); // NOI18N
         jLabelTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabelTitulo.setText("Sonart");
 
@@ -71,14 +73,19 @@ public class Tela_Inicio extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabelTitulo, javax.swing.GroupLayout.DEFAULT_SIZE, 593, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabelLogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabelCadastrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jBLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jBCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(66, 66, 66)
+                        .addComponent(jLabelLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(33, 33, 33))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabelCadastrar)
+                        .addGap(18, 18, 18)))
+                .addGap(13, 13, 13)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jBLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -86,15 +93,15 @@ public class Tela_Inicio extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(48, 48, 48)
                 .addComponent(jLabelTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 120, Short.MAX_VALUE)
+                .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jBLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelLogin))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jBCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelCadastrar))
-                .addGap(24, 24, 24))
+                .addContainerGap(94, Short.MAX_VALUE))
         );
 
         pack();
@@ -117,30 +124,12 @@ public class Tela_Inicio extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+       
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Tela_Inicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Tela_Inicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Tela_Inicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Tela_Inicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            FlatDarkLaf.setup();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao iniciar tema!", "Erro", JOptionPane.ERROR_MESSAGE);
         }
-        //</editor-fold>
-        //</editor-fold>
-
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
