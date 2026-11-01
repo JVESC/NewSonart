@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package Telas_Perfil;
+import Telas_Player.Dashboard;
 import com.formdev.flatlaf.FlatDarkLaf;
 import javax.swing.JOptionPane;
 /**
@@ -114,7 +115,9 @@ public class Tela_Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBLoginActionPerformed
-        
+    Dashboard board = new Dashboard();
+    board.setVisible(true);
+    this.dispose();
     }//GEN-LAST:event_jBLoginActionPerformed
 
     private void jBVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBVoltarActionPerformed
