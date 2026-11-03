@@ -30,6 +30,10 @@ public class Tela_Login extends javax.swing.JFrame {
          iconeVoltar.setColorFilter(new FlatSVGIcon.ColorFilter(color -> java.awt.Color.WHITE));
          //depois coloca no botão
          jBVoltar.setIcon(iconeVoltar);
+         
+             
+
+    
     }
 
     /**

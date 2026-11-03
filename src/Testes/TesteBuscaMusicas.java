@@ -19,7 +19,7 @@ public class TesteBuscaMusicas {
     MetadadosMusica metadadosMusica = new MetadadosMusica();
     MusicaDAO musicaDAO = new MusicaDAO();
     
-    var lista = FonteMusica.buscar("Daft Punk", "Get Lucky");   // use uma música real
+    var lista = FonteMusica.buscar("Serj Tankian", "Shame");   // use uma música real
     if (lista.isEmpty()) {
         System.out.println("Nada encontrado. Veja as mensagens acima.");
         return;

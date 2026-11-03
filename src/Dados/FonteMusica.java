@@ -1,20 +1,20 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Dados;
 
-import com.google.gson.*;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import java.net.URI;
 import java.net.URLEncoder;
-import java.net.http.*;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
-/**
- *
- * @author jvitor
- */
+import java.util.ArrayList;
+import java.util.List;
+
+/** Busca dados de músicas na Deezer (metadados) e na LRCLIB (letras). Sem chave de API. */
 public class FonteMusica {
+
     private static final HttpClient HTTP = HttpClient.newHttpClient();
 
     private static JsonElement get(String url) throws Exception {
@@ -34,17 +34,18 @@ public class FonteMusica {
         return (o.has(campo) && !o.get(campo).isJsonNull()) ? o.get(campo).getAsString() : null;
     }
 
-    // Passo 1: lista de candidatos para o admin escolher
+    /** Busca por artista + título (estrita primeiro, depois solta). Até 5 resultados. */
     public static List<MetadadosMusica> buscar(String artista, String titulo) throws Exception {
-    List<MetadadosMusica> lista = buscarNaDeezer("artist:\"" + artista + "\" track:\"" + titulo + "\"");
-    if (lista.isEmpty()) {
-        lista = buscarNaDeezer(artista + " " + titulo);      // plano B: busca solta
-    }
-    return lista;
+        List<MetadadosMusica> lista = pesquisar("artist:\"" + artista + "\" track:\"" + titulo + "\"", 5);
+        if (lista.isEmpty()) {
+            lista = pesquisar(artista + " " + titulo, 5);
+        }
+        return lista;
     }
 
-    private static List<MetadadosMusica> buscarNaDeezer(String q) throws Exception {
-        String url = "https://api.deezer.com/search?limit=5&q=" + enc(q);
+    /** Pesquisa livre na Deezer (um texto qualquer), com o limite de resultados que você quiser. */
+    public static List<MetadadosMusica> pesquisar(String q, int limite) throws Exception {
+        String url = "https://api.deezer.com/search?limit=" + limite + "&q=" + enc(q);
         JsonElement raiz = get(url);
         List<MetadadosMusica> lista = new ArrayList<>();
 
@@ -54,7 +55,7 @@ public class FonteMusica {
         }
         JsonObject obj = raiz.getAsJsonObject();
         if (!obj.has("data")) {
-            System.err.println("Resposta sem 'data': " + obj);          // mostra o erro da Deezer
+            System.err.println("Resposta sem 'data': " + obj);
             return lista;
         }
 
@@ -73,13 +74,15 @@ public class FonteMusica {
         return lista;
     }
 
-    // Passo 2: depois que o admin escolheu, busca ano e letra
+    /** Depois de escolhido o candidato: busca o ano de lançamento e a letra. */
     public static void completar(MetadadosMusica m) {
-        try {   // ano de lancamento (vem do album)
+        try {   // ano de lançamento (vem do álbum)
             JsonElement al = get("https://api.deezer.com/album/" + m.idAlbumDeezer);
             if (al != null) {
                 String data = texto(al.getAsJsonObject(), "release_date");   // AAAA-MM-DD
-                if (data != null && data.length() >= 4) m.anoLancamento = Integer.parseInt(data.substring(0, 4));
+                if (data != null && data.length() >= 4) {
+                    m.anoLancamento = Integer.parseInt(data.substring(0, 4));
+                }
             }
         } catch (Exception ignorado) { }
 
@@ -88,9 +91,26 @@ public class FonteMusica {
                     + "&track_name=" + enc(m.titulo)
                     + "&album_name=" + enc(m.album)
                     + "&duration=" + m.duracaoSeg);
-            if (l != null) {
-                m.letra = texto(l.getAsJsonObject(), "plainLyrics");
-                m.letraSincronizada = texto(l.getAsJsonObject(), "syncedLyrics");
+            JsonObject o = (l != null && l.isJsonObject()) ? l.getAsJsonObject() : null;
+
+            if (o == null) {   // plano B: a busca da LRCLIB é mais tolerante com a duração
+                JsonElement s = get("https://lrclib.net/api/search?track_name=" + enc(m.titulo)
+                        + "&artist_name=" + enc(m.artista));
+                if (s != null && s.isJsonArray() && s.getAsJsonArray().size() > 0) {
+                    for (JsonElement e : s.getAsJsonArray()) {
+                        JsonObject c = e.getAsJsonObject();
+                        if (texto(c, "syncedLyrics") != null) {
+                            o = c;
+                            break;
+                        }
+                    }
+                    if (o == null) o = s.getAsJsonArray().get(0).getAsJsonObject();
+                }
+            }
+
+            if (o != null) {
+                m.letra = texto(o, "plainLyrics");
+                m.letraSincronizada = texto(o, "syncedLyrics");
             }
         } catch (Exception ignorado) { }
     }

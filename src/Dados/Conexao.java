@@ -13,9 +13,9 @@ import java.sql.SQLException;
  */
 public class Conexao {
     
-    private static final String URL = "jdbc:postgresql://localhost:5432/sonart";
+    private static final String URL = "jdbc:postgresql://localhost:5432/Sonart";
     private static final String USUARIO = "postgres";
-    private static final String SENHA = "SUA_SENHA_AQUI";
+    private static final String SENHA = "admin";
  
     public static Connection abrir() throws SQLException {
         return DriverManager.getConnection(URL, USUARIO, SENHA);
