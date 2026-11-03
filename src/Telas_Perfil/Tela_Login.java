@@ -5,6 +5,7 @@
 package Telas_Perfil;
 import Telas_Player.Dashboard;
 import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import javax.swing.JOptionPane;
 /**
  *
@@ -21,6 +22,14 @@ public class Tela_Login extends javax.swing.JFrame {
         jTFSenha.putClientProperty("FlatLaf.style", "arc: 10");
         jBVoltar.putClientProperty("FlatLaf.style", "arc: 10");
         jBLogin.putClientProperty("FlatLaf.style", "arc: 10");
+        
+        //botão voltar
+        //pega o botão da pasta imagens e depois diminui o tamanho dele em pixels
+         FlatSVGIcon iconeVoltar = new FlatSVGIcon(getClass().getResource("/imagens/seta-esquerda2.svg")).derive(20, 20);
+         //coloca a cor branca
+         iconeVoltar.setColorFilter(new FlatSVGIcon.ColorFilter(color -> java.awt.Color.WHITE));
+         //depois coloca no botão
+         jBVoltar.setIcon(iconeVoltar);
     }
 
     /**
@@ -115,6 +124,12 @@ public class Tela_Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBLoginActionPerformed
+    
+        if(jTFEmail.getText().isEmpty() || jTFSenha.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Não deixe nenhum campo vazio", "Campos Vazios", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
     Dashboard board = new Dashboard();
     board.setVisible(true);
     this.dispose();
