@@ -2,13 +2,14 @@
 package Telas_Perfil;
 import com.formdev.flatlaf.FlatDarkLaf;
 import javax.swing.JOptionPane;
+import Drives.DriveToken;
 
 /**
  *
  * @author JVESC e EMILLYLETC
  */
 public class Tela_Inicio extends javax.swing.JFrame {
-
+  
     /**
      * Creates new form Tela_Inicio
      */
@@ -17,6 +18,8 @@ public class Tela_Inicio extends javax.swing.JFrame {
         jBCadastrar.putClientProperty("FlatLaf.style", "arc: 30");
  
         jBLogin.putClientProperty("FlatLaf.style", "arc: 30");
+        DriveToken DriveToken =  new DriveToken();
+
     }
 
     /**
