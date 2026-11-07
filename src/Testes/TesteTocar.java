@@ -6,7 +6,9 @@ public class TesteTocar {
 
     public static void main(String[] args) throws Exception {
         PlayerMusica p = new PlayerMusica();
-
+        System.out.println("Solicitando reprodução...");
+        p.tocar("14g-VL3okWWKVdY9_AKM8gcA6e7We8Vyx");
+        System.out.println("Solicitação enviada.");
         p.setAoPronto(seg -> System.out.println("Pronto! Duração: " + seg + "s"));
         p.setAoErro(msg -> System.err.println("ERRO: " + msg));
         p.setAoTerminar(() -> {
