@@ -23,9 +23,19 @@ import javax.swing.SwingUtilities;
 public class PlayerMusica {
 
     static {
-        new JFXPanel();
-        Platform.setImplicitExit(false);
-    }
+    System.out.println("===== INICIALIZAÇÃO JAVAFX =====");
+    System.out.println("Thread de inicialização: "
+            + Thread.currentThread().getName());
+    System.out.println("JavaFX já inicializado: "
+            + Platform.isFxApplicationThread());
+
+    new JFXPanel();
+
+    Platform.setImplicitExit(false);
+
+    System.out.println("JFXPanel inicializado.");
+    System.out.println("================================");
+}
 
     private static final HttpClient HTTP = HttpClient.newBuilder()
             .followRedirects(HttpClient.Redirect.NORMAL)
@@ -188,10 +198,31 @@ public class PlayerMusica {
     }
 
     private void abrir(Path arquivo, int minha) {
-
-        descartar();
+        System.out.println("===== ABERTURA DO PLAYER =====");
+        System.out.println("Thread atual: "
+                + Thread.currentThread().getName());
+        System.out.println("É thread JavaFX: "
+                + Platform.isFxApplicationThread());
+        System.out.println("ClassLoader do Media: "
+                + Media.class.getClassLoader());
+        System.out.println("Classpath: "
+                + System.getProperty("java.class.path"));
+        System.out.println("==============================");
+                descartar();
 
         try {
+            System.out.println("\n===== DIAGNÓSTICO JAVAFX =====");
+            System.out.println("Java: " + System.getProperty("java.version"));
+            System.out.println("Java Home: " + System.getProperty("java.home"));
+            System.out.println("JavaFX Media: "
+                    + Media.class.getProtectionDomain()
+                            .getCodeSource().getLocation());
+            System.out.println("Arquivo URI: " + arquivo.toUri());
+            System.out.println("Arquivo existe: " + Files.exists(arquivo));
+            System.out.println("Arquivo legível: " + Files.isReadable(arquivo));
+            System.out.println("Tamanho: " + Files.size(arquivo));
+            System.out.println("Thread: " + Thread.currentThread().getName());
+            System.out.println("==============================\n");
             Media media = new Media(arquivo.toUri().toString());
 
             media.setOnError(() ->

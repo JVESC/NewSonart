@@ -128,12 +128,12 @@ public class Tela_Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBLoginActionPerformed
-    
+    /*
         if(jTFEmail.getText().isEmpty() || jTFSenha.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Não deixe nenhum campo vazio", "Campos Vazios", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        
+    */
     Dashboard board = new Dashboard();
     board.setVisible(true);
     this.dispose();

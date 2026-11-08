@@ -9,6 +9,22 @@
 <!-- in the project's Project Properties dialog box.-->
 <project name="NewSonart" default="default" basedir=".">
     <description>Builds, tests, and runs the project NewSonart.</description>
+        <!-- Detecta o sistema operacional para selecionar o JavaFX correto -->
+    <condition property="javafx.dir" value="lib/Linux">
+        <os family="unix"/>
+    </condition>
+
+    <condition property="javafx.suffix" value="linux">
+        <os family="unix"/>
+    </condition>
+
+    <condition property="javafx.dir" value="lib/Windows">
+        <os family="windows"/>
+    </condition>
+
+    <condition property="javafx.suffix" value="win">
+        <os family="windows"/>
+    </condition>
     <import file="nbproject/build-impl.xml"/>
     <!--
 
