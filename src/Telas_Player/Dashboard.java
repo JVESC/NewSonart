@@ -46,7 +46,6 @@ public class Dashboard extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sonart");
-        setPreferredSize(new java.awt.Dimension(936, 639));
         setResizable(false);
 
         jPPlay.setPreferredSize(new java.awt.Dimension(380, 633));
@@ -75,7 +74,7 @@ public class Dashboard extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(672, Short.MAX_VALUE)
+                .addContainerGap(669, Short.MAX_VALUE)
                 .addComponent(jPPlay, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
