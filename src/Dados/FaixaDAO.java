@@ -43,5 +43,53 @@ public class FaixaDAO {
         }
         return lista;
     }
+    
+    public static List<Faixa> buscar(Connection c, String termo)
+        throws SQLException {
+
+    String sql =
+        "SELECT m.id_musica, m.nome, m.duracao_seg, " +
+        "m.caminho_arquivo, m.letra_sincronizada, " +
+        "al.nome AS album, al.capa, ar.nome AS artista " +
+        "FROM musica m " +
+        "JOIN album al ON al.id_album = m.id_album " +
+        "JOIN artista ar ON ar.id_artista = al.id_artista " +
+        "WHERE m.nome ILIKE ? " +
+        "OR ar.nome ILIKE ? " +
+        "OR al.nome ILIKE ? " +
+        "ORDER BY m.nome";
+
+    List<Faixa> resultados = new ArrayList<>();
+
+    try (PreparedStatement ps = c.prepareStatement(sql)) {
+
+        String busca = "%" + termo.trim() + "%";
+
+        ps.setString(1, busca);
+        ps.setString(2, busca);
+        ps.setString(3, busca);
+
+        try (ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Faixa f = new Faixa();
+
+                f.id = rs.getInt("id_musica");
+                f.titulo = rs.getString("nome");
+                f.artista = rs.getString("artista");
+                f.album = rs.getString("album");
+                f.capaUrl = rs.getString("capa");
+                f.idDrive = rs.getString("caminho_arquivo");
+                f.letraSincronizada =
+                    rs.getString("letra_sincronizada");
+                f.duracaoSeg = rs.getInt("duracao_seg");
+
+                resultados.add(f);
+            }
+        }
+    }
+
+    return resultados;
+}
 
 }

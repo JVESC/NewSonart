@@ -4,7 +4,10 @@
  */
 package Telas_Player;
 import com.formdev.flatlaf.FlatDarkLaf;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import javax.swing.JOptionPane;
+import Telas_Painel.*;
 /**
  *
  * @author jvitor
@@ -12,24 +15,80 @@ import javax.swing.JOptionPane;
 public class Dashboard extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Dashboard.class.getName());
+    private CardLayout layoutCentral;
 
     /**
      * Creates new form Dashboard
      */
     public Dashboard() {
-        initComponents();
-        getContentPane().removeAll();
-        getContentPane().setLayout(new java.awt.BorderLayout());
         
-        Tela_Play player = new Tela_Play();
-        player.setPreferredSize(new java.awt.Dimension(410, 0));
-        getContentPane().add(player, java.awt.BorderLayout.EAST);
-        player.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 1, 0, 0, java.awt.Color.GRAY));
-        
-        setSize(1100, 700);        
-        setLocationRelativeTo(null);
-    }
+    initComponents();
+    
+    configurarPlayer();
+    configurarTelas();
+    configurarMenu();
 
+    }
+    
+    private void configurarPlayer() {
+    jPPlay.setLayout(new java.awt.BorderLayout());
+
+    Tela_Play player = new Tela_Play();
+
+    jPPlay.add(player, java.awt.BorderLayout.CENTER);
+
+    jPPlay.revalidate();
+    jPPlay.repaint();
+    }
+    
+    
+    private void configurarTelas() {
+
+    layoutCentral = new CardLayout();
+
+    jPCentral.setLayout(layoutCentral);
+
+    jPCentral.add(new Tela_Inicio(), "inicio");
+    jPCentral.add(new Tela_Pesquisa(), "pesquisa");
+    jPCentral.add(new Tela_Musicas(), "musicas");
+    jPCentral.add(new Tela_Artistas(), "artistas");
+    jPCentral.add(new Tela_Playlists(), "playlists");
+    jPCentral.add(new Tela_Favoritas(), "favoritas");
+    jPCentral.add(new Tela_Conta(), "conta");
+
+    layoutCentral.show(jPCentral, "inicio");
+    }
+    
+    private void abrirTela(String tela) {
+    layoutCentral.show(jPCentral, tela);
+    }
+    
+    private void configurarMenu() {
+
+    jItemPesquisa.addActionListener(e ->
+        abrirTela("pesquisa")
+    );
+
+    jItemMusicasCdtr.addActionListener(e ->
+        abrirTela("musicas")
+    );
+
+    jItemArtistasCdtr.addActionListener(e ->
+        abrirTela("artistas")
+    );
+
+    jItemPlaylists.addActionListener(e ->
+        abrirTela("playlists")
+    );
+
+    jItemFav.addActionListener(e ->
+        abrirTela("favoritas")
+    );
+
+    jItemAccConta.addActionListener(e ->
+        abrirTela("conta")
+    );
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -40,9 +99,18 @@ public class Dashboard extends javax.swing.JFrame {
     private void initComponents() {
 
         jPPlay = new javax.swing.JPanel();
+        jPCentral = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
+        jMConta = new javax.swing.JMenu();
+        jItemAccConta = new javax.swing.JMenuItem();
+        jItemHistorico = new javax.swing.JMenuItem();
+        jMPesquisa = new javax.swing.JMenu();
+        jItemPesquisa = new javax.swing.JMenuItem();
+        jItemMusicasCdtr = new javax.swing.JMenuItem();
+        jItemArtistasCdtr = new javax.swing.JMenuItem();
+        jMBiblioteca = new javax.swing.JMenu();
+        jItemPlaylists = new javax.swing.JMenuItem();
+        jItemFav = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sonart");
@@ -54,18 +122,56 @@ public class Dashboard extends javax.swing.JFrame {
         jPPlay.setLayout(jPPlayLayout);
         jPPlayLayout.setHorizontalGroup(
             jPPlayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 410, Short.MAX_VALUE)
+            .addGap(0, 375, Short.MAX_VALUE)
         );
         jPPlayLayout.setVerticalGroup(
             jPPlayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 665, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        jMenu1.setText("File");
-        jMenuBar1.add(jMenu1);
+        javax.swing.GroupLayout jPCentralLayout = new javax.swing.GroupLayout(jPCentral);
+        jPCentral.setLayout(jPCentralLayout);
+        jPCentralLayout.setHorizontalGroup(
+            jPCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 680, Short.MAX_VALUE)
+        );
+        jPCentralLayout.setVerticalGroup(
+            jPCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 680, Short.MAX_VALUE)
+        );
 
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
+        jMConta.setText("Conta");
+
+        jItemAccConta.setText("Acessar Conta");
+        jMConta.add(jItemAccConta);
+
+        jItemHistorico.setText("Historico Musical");
+        jMConta.add(jItemHistorico);
+
+        jMenuBar1.add(jMConta);
+
+        jMPesquisa.setText("Pesquisa");
+
+        jItemPesquisa.setText("Pesquisar Música");
+        jMPesquisa.add(jItemPesquisa);
+
+        jItemMusicasCdtr.setText("Ver Músicas Cadastradas");
+        jMPesquisa.add(jItemMusicasCdtr);
+
+        jItemArtistasCdtr.setText("Ver Artistas Cadastrados");
+        jMPesquisa.add(jItemArtistasCdtr);
+
+        jMenuBar1.add(jMPesquisa);
+
+        jMBiblioteca.setText("Biblioteca");
+
+        jItemPlaylists.setText("Playlists");
+        jMBiblioteca.add(jItemPlaylists);
+
+        jItemFav.setText("Favoritos");
+        jMBiblioteca.add(jItemFav);
+
+        jMenuBar1.add(jMBiblioteca);
 
         setJMenuBar(jMenuBar1);
 
@@ -74,15 +180,21 @@ public class Dashboard extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(669, Short.MAX_VALUE)
-                .addComponent(jPPlay, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(jPCentral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jPPlay, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPPlay, javax.swing.GroupLayout.DEFAULT_SIZE, 665, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPPlay, javax.swing.GroupLayout.DEFAULT_SIZE, 680, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jPCentral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -105,9 +217,18 @@ public class Dashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuItem jItemAccConta;
+    private javax.swing.JMenuItem jItemArtistasCdtr;
+    private javax.swing.JMenuItem jItemFav;
+    private javax.swing.JMenuItem jItemHistorico;
+    private javax.swing.JMenuItem jItemMusicasCdtr;
+    private javax.swing.JMenuItem jItemPesquisa;
+    private javax.swing.JMenuItem jItemPlaylists;
+    private javax.swing.JMenu jMBiblioteca;
+    private javax.swing.JMenu jMConta;
+    private javax.swing.JMenu jMPesquisa;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPanel jPCentral;
     private javax.swing.JPanel jPPlay;
     // End of variables declaration//GEN-END:variables
 }
