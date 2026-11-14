@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.Map;
 import javax.imageio.ImageIO;
 import javax.swing.SwingWorker;
+import java.util.List;
+import java.util.ArrayList;
 /**
  *
  * @author jvitor
@@ -314,8 +316,23 @@ private DiscoVinil vinil;
     if (posicao >= 0) {
         selecionar(posicao, false);
     }
-}
+    }
     
+    public void reproduzirMusica(
+        Faixa faixa,
+        List<Faixa> resultados) {
+
+    if (faixa == null) return;
+
+    this.fila = new ArrayList<>(resultados);
+
+    for (int i = 0; i < fila.size(); i++) {
+        if (fila.get(i).id == faixa.id) {
+            selecionar(i, true);
+            return;
+        }
+    }
+}
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

@@ -8,6 +8,7 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import javax.swing.JOptionPane;
 import Telas_Painel.*;
+import Telas_Player.Tela_Play;
 /**
  *
  * @author jvitor
@@ -15,7 +16,9 @@ import Telas_Painel.*;
 public class Dashboard extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Dashboard.class.getName());
+    private Tela_Play player;
     private CardLayout layoutCentral;
+    
 
     /**
      * Creates new form Dashboard
@@ -31,36 +34,56 @@ public class Dashboard extends javax.swing.JFrame {
     }
     
     private void configurarPlayer() {
-    jPPlay.setLayout(new java.awt.BorderLayout());
+    jPPlay.setLayout(new BorderLayout());
 
-    Tela_Play player = new Tela_Play();
+    player = new Tela_Play();
+    
 
-    jPPlay.add(player, java.awt.BorderLayout.CENTER);
+    jPPlay.add(player, BorderLayout.CENTER);
 
     jPPlay.revalidate();
     jPPlay.repaint();
+    
+    
     }
     
     
     private void configurarTelas() {
 
     layoutCentral = new CardLayout();
-
     jPCentral.setLayout(layoutCentral);
 
     jPCentral.add(new Tela_Inicio(), "inicio");
-    jPCentral.add(new Tela_Pesquisa(), "pesquisa");
+
+    Tela_Pesquisa telaPesquisa = new Tela_Pesquisa(player);
+    jPCentral.add(telaPesquisa, "pesquisa");
+
     jPCentral.add(new Tela_Musicas(), "musicas");
     jPCentral.add(new Tela_Artistas(), "artistas");
     jPCentral.add(new Tela_Playlists(), "playlists");
     jPCentral.add(new Tela_Favoritas(), "favoritas");
     jPCentral.add(new Tela_Conta(), "conta");
 
-    layoutCentral.show(jPCentral, "inicio");
+    jBPesq.addActionListener(e ->
+        abrirTela("pesquisa")
+    );
+
+    jBInicio.addActionListener(e ->
+        abrirTela("inicio")
+    );
+
+    jBBibli.addActionListener(e ->
+        abrirTela("playlists")
+    );
+
+    abrirTela("inicio");
     }
     
     private void abrirTela(String tela) {
     layoutCentral.show(jPCentral, tela);
+    
+     jPCentral.revalidate();
+    jPCentral.repaint();
     }
     
     private void configurarMenu() {
@@ -100,6 +123,9 @@ public class Dashboard extends javax.swing.JFrame {
 
         jPPlay = new javax.swing.JPanel();
         jPCentral = new javax.swing.JPanel();
+        jBInicio = new javax.swing.JButton();
+        jBBibli = new javax.swing.JButton();
+        jBPesq = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMConta = new javax.swing.JMenu();
         jItemAccConta = new javax.swing.JMenuItem();
@@ -129,16 +155,25 @@ public class Dashboard extends javax.swing.JFrame {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
+        jPCentral.setPreferredSize(new java.awt.Dimension(643, 680));
+
         javax.swing.GroupLayout jPCentralLayout = new javax.swing.GroupLayout(jPCentral);
         jPCentral.setLayout(jPCentralLayout);
         jPCentralLayout.setHorizontalGroup(
             jPCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 680, Short.MAX_VALUE)
+            .addGap(0, 643, Short.MAX_VALUE)
         );
         jPCentralLayout.setVerticalGroup(
             jPCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 680, Short.MAX_VALUE)
         );
+
+        jBInicio.setText("Inicio");
+
+        jBBibli.setText("biblioteca");
+
+        jBPesq.setText("Pesquisa");
+        jBPesq.addActionListener(this::jBPesqActionPerformed);
 
         jMConta.setText("Conta");
 
@@ -181,26 +216,40 @@ public class Dashboard extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jBBibli, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jBInicio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jBPesq, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPCentral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPPlay, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPPlay, javax.swing.GroupLayout.DEFAULT_SIZE, 692, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPPlay, javax.swing.GroupLayout.DEFAULT_SIZE, 680, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jPCentral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(161, 161, 161)
+                .addComponent(jBInicio)
+                .addGap(62, 62, 62)
+                .addComponent(jBBibli)
+                .addGap(63, 63, 63)
+                .addComponent(jBPesq)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPCentral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jBPesqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBPesqActionPerformed
+            abrirTela("pesquisa");
+    }//GEN-LAST:event_jBPesqActionPerformed
 
     /**
      * @param args the command line arguments
@@ -217,6 +266,9 @@ public class Dashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBBibli;
+    private javax.swing.JButton jBInicio;
+    private javax.swing.JButton jBPesq;
     private javax.swing.JMenuItem jItemAccConta;
     private javax.swing.JMenuItem jItemArtistasCdtr;
     private javax.swing.JMenuItem jItemFav;
