@@ -2,253 +2,139 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
+
 package Telas_Painel;
+
 import Dados.Conexao;
 import Dados.Faixa;
 import Dados.FaixaDAO;
 import Telas_Player.Tela_Play;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.net.URI;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.util.List;
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-/**
- *
- * @author aluno
- */
+import javax.swing.BoxLayout;
+import javax.swing.SwingWorker;
+
 public class Tela_Pesquisa extends javax.swing.JPanel {
-private Tela_Play player;
-private JTextField campoPesquisa;
-private JPanel painelResultados;
-private JLabel lblStatus;
-    /**
-     * Creates new form Tela_Pesquisa
-     */
-   public Tela_Pesquisa() {
-    this(null);
-}
+
+    private Tela_Play player;
+    
+
+    public Tela_Pesquisa() {
+        this(null);
+    }
 
     public Tela_Pesquisa(Tela_Play player) {
-    initComponents();
+        initComponents();
 
-    this.player = player;
+        this.player = player;
 
-    configurarTela();
-}
-    
-    private void configurarTela() {
-    removeAll();
-    setLayout(new BorderLayout(10, 10));
-    setBorder(new EmptyBorder(20, 20, 20, 20));
-
-    // Campo de pesquisa
-    JPanel topo = new JPanel(new BorderLayout(10, 0));
-
-    campoPesquisa = new JTextField();
-    campoPesquisa.setFont(new Font("Arial", Font.PLAIN, 16));
-    campoPesquisa.setPreferredSize(new Dimension(300, 40));
-
-    JButton btnPesquisar = new JButton("Pesquisar");
-
-    topo.add(campoPesquisa, BorderLayout.CENTER);
-    topo.add(btnPesquisar, BorderLayout.EAST);
-
-    add(topo, BorderLayout.NORTH);
-
-    // Área dos resultados
-    painelResultados = new JPanel();
-    painelResultados.setLayout(
-        new BoxLayout(painelResultados, BoxLayout.Y_AXIS)
-    );
-
-    JScrollPane scroll = new JScrollPane(painelResultados);
-    scroll.setBorder(null);
-
-    add(scroll, BorderLayout.CENTER);
-
-    lblStatus = new JLabel("Pesquise uma música.");
-    add(lblStatus, BorderLayout.SOUTH);
-
-    btnPesquisar.addActionListener(e -> pesquisar());
-    campoPesquisa.addActionListener(e -> pesquisar());
+        configurarEventos();
     }
+
+    private void configurarEventos() {
+
+    jBPesq.addActionListener(e -> pesquisar());
+
+    jTextPesquisa.addActionListener(e -> pesquisar());
+
+    jPanel1.setLayout(
+        new BoxLayout(jPanel1, BoxLayout.Y_AXIS)
+    );
+    jPanel1.setAlignmentX(Component.LEFT_ALIGNMENT);
+    jPanel1.setBackground(jScrollPane1.getBackground());
+
     
+}
+
     private void pesquisar() {
 
-    String termo = campoPesquisa.getText().trim();
+        String termo = jTextPesquisa.getText().trim();
 
-    if (termo.isEmpty()) {
-        return;
-    }
-
-    painelResultados.removeAll();
-    lblStatus.setText("Pesquisando...");
-
-    painelResultados.revalidate();
-    painelResultados.repaint();
-
-    new SwingWorker<List<Faixa>, Void>() {
-
-        @Override
-        protected List<Faixa> doInBackground() throws Exception {
-
-            try (java.sql.Connection c = Conexao.abrir()) {
-                return FaixaDAO.buscar(c, termo);
-            }
+        if (termo.isEmpty()) {
+            return;
         }
 
-        @Override
-        protected void done() {
+        jPanel1.removeAll();
+        jPanel1.revalidate();
+        jPanel1.repaint();
 
-            try {
-                List<Faixa> resultados = get();
+        new SwingWorker<List<Faixa>, Void>() {
 
-                painelResultados.removeAll();
+            @Override
+            protected List<Faixa> doInBackground()
+                    throws Exception {
 
-                if (resultados.isEmpty()) {
-                    lblStatus.setText("Nenhuma música encontrada.");
-                } else {
+                try (java.sql.Connection c = Conexao.abrir()) {
+                    return FaixaDAO.buscar(c, termo);
+                }
+            }
 
-                    lblStatus.setText(
-                        resultados.size() + " resultado(s)"
+            @Override
+            protected void done() {
+
+                try {
+                    List<Faixa> resultados = get();
+
+                    jPanel1.removeAll();
+
+                    if (resultados.isEmpty()) {
+
+                        javax.swing.JOptionPane.showMessageDialog(
+                            Tela_Pesquisa.this,
+                            "Nenhuma música encontrada."
+                        );
+
+                    } else {
+
+                        for (Faixa faixa : resultados) {
+
+                            Tela_ResultadoPesq resultado =
+                                new Tela_ResultadoPesq(
+                                    faixa,
+                                    resultados,
+                                    player
+                                );
+
+                            resultado.setAlignmentX(
+                                Component.LEFT_ALIGNMENT
+                            );
+
+                            resultado.setMaximumSize(
+                                new Dimension(
+                                    Integer.MAX_VALUE, 110
+                                )
+                            );
+
+                            jPanel1.add(resultado);
+
+                            jPanel1.add(
+                                javax.swing.Box.createVerticalStrut(8)
+                            );
+                        }
+                    }
+
+                    jPanel1.revalidate();
+                    jPanel1.repaint();
+
+                } catch (Exception ex) {
+
+                    javax.swing.JOptionPane.showMessageDialog(
+                        Tela_Pesquisa.this,
+                        "Erro ao pesquisar músicas: "
+                        + ex.getMessage()
                     );
 
-                    for (Faixa faixa : resultados) {
-                        painelResultados.add(
-                            criarResultado(faixa, resultados)
-                        );
-
-                        painelResultados.add(
-                            Box.createVerticalStrut(8)
-                        );
-                    }
+                    ex.printStackTrace();
                 }
-
-                painelResultados.revalidate();
-                painelResultados.repaint();
-
-            } catch (Exception ex) {
-                lblStatus.setText("Erro ao pesquisar músicas.");
-                ex.printStackTrace();
             }
-        }
 
-    }.execute();
+        }.execute();
     }
+
     
-    private JPanel criarResultado(
-        Faixa faixa,
-        List<Faixa> resultados) {
 
-    JPanel item = new JPanel(new BorderLayout(12, 0));
-
-    item.setBorder(
-        BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(
-                new Color(65, 65, 65)
-            ),
-            new EmptyBorder(8, 8, 8, 8)
-        )
-    );
-
-    item.setMaximumSize(
-        new Dimension(Integer.MAX_VALUE, 76)
-    );
-
-    // Miniatura da capa
-    JLabel capa = new JLabel();
-    capa.setPreferredSize(new Dimension(55, 55));
-
-    capa.setHorizontalAlignment(JLabel.CENTER);
-
-    carregarMiniCapa(faixa.capaUrl, capa);
-
-    // Informações
-    JPanel informacoes = new JPanel();
-    informacoes.setLayout(
-        new BoxLayout(informacoes, BoxLayout.Y_AXIS)
-    );
-
-    JLabel titulo = new JLabel(faixa.titulo);
-    titulo.setFont(new Font("Arial", Font.BOLD, 14));
-
-    JLabel artista = new JLabel(faixa.artista);
-    artista.setFont(new Font("Arial", Font.PLAIN, 12));
-
-    informacoes.add(titulo);
-    informacoes.add(Box.createVerticalStrut(5));
-    informacoes.add(artista);
-
-    // Botão Play
-   
-    JButton btnPlay = new JButton("▶");
-
-    btnPlay.setToolTipText("Reproduzir música");
-
-    btnPlay.addActionListener(e -> {
-        player.reproduzirMusica(faixa, resultados);
-    });
-
-    item.add(capa, BorderLayout.WEST);
-    item.add(informacoes, BorderLayout.CENTER);
-    item.add(btnPlay, BorderLayout.EAST);
-
-    return item;
-    }
-    
-    private void carregarMiniCapa(
-        String url,
-        JLabel label) {
-
-    if (url == null || url.isBlank()) {
-        label.setText("♪");
-        return;
-    }
-
-    new SwingWorker<ImageIcon, Void>() {
-
-        @Override
-        protected ImageIcon doInBackground() throws Exception {
-
-            BufferedImage imagem = ImageIO.read(
-                URI.create(url).toURL()
-            );
-
-            if (imagem == null) {
-                return null;
-            }
-
-            Image reduzida = imagem.getScaledInstance(
-                55, 55,
-                Image.SCALE_SMOOTH
-            );
-
-            return new ImageIcon(reduzida);
-        }
-
-        @Override
-        protected void done() {
-
-            try {
-                ImageIcon icone = get();
-
-                if (icone != null) {
-                    label.setIcon(icone);
-                    label.setText("");
-                } else {
-                    label.setText("♪");
-                }
-
-            } catch (Exception ex) {
-                label.setText("♪");
-            }
-        }
-
-    }.execute();
-    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -258,25 +144,43 @@ private JLabel lblStatus;
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTextField1 = new javax.swing.JTextField();
+        jTextPesquisa = new javax.swing.JTextField();
         jBPesq = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jPanel1 = new javax.swing.JPanel();
 
         setPreferredSize(new java.awt.Dimension(808, 726));
 
-        jTextField1.setFont(new java.awt.Font("Arial Black", 0, 12)); // NOI18N
+        jTextPesquisa.setFont(new java.awt.Font("Arial Black", 0, 12)); // NOI18N
 
         jBPesq.setText("Pesquisar");
         jBPesq.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 739, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 625, Short.MAX_VALUE)
+        );
+
+        jScrollPane1.setViewportView(jPanel1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 630, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(jBPesq)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 757, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jTextPesquisa)
+                        .addGap(18, 18, 18)
+                        .addComponent(jBPesq)))
                 .addGap(45, 45, 45))
         );
         layout.setVerticalGroup(
@@ -284,15 +188,19 @@ private JLabel lblStatus;
             .addGroup(layout.createSequentialGroup()
                 .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jBPesq, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(637, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 625, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBPesq;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTextPesquisa;
     // End of variables declaration//GEN-END:variables
 }

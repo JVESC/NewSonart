@@ -3,19 +3,105 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package Telas_Painel;
-
+import Dados.Faixa;
+import Telas_Player.Tela_Play;
+import java.awt.Image;
+import java.net.URI;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.SwingWorker;
+import java.awt.image.BufferedImage;
 /**
  *
  * @author aluno
  */
 public class Tela_ResultadoPesq extends javax.swing.JPanel {
-
+private Faixa faixa;
+private Tela_Play player;
+private java.util.List<Faixa> resultados;
     /**
      * Creates new form Tela_ResultadoPesq
      */
-    public Tela_ResultadoPesq() {
-        initComponents();
+    public Tela_ResultadoPesq(
+        Faixa faixa,
+        java.util.List<Faixa> resultados,
+        Tela_Play player) {
+
+    initComponents();
+
+    this.faixa = faixa;
+    this.resultados = resultados;
+    this.player = player;
+
+    preencherDados();
+}
+    
+    private void preencherDados() {
+
+    jLTitulo.setText(faixa.titulo);
+    jLArtista.setText(faixa.artista);
+    
+    int minutos = faixa.duracaoSeg / 60;
+    int segundos = faixa.duracaoSeg % 60;
+
+    jLDuracao.setText(
+        String.format("Duração: %02d:%02d", minutos, segundos)
+    );
+    jBPlay.addActionListener(e -> {
+        if (player != null) {
+            player.reproduzirMusica(faixa, resultados);
+        }
+    });
+
+    carregarCapa();
+}
+    
+    private void carregarCapa() {
+
+    if (faixa.capaUrl == null || faixa.capaUrl.isBlank()) {
+        jLCapa.setText("♪");
+        return;
     }
+
+    new SwingWorker<ImageIcon, Void>() {
+
+        @Override
+        protected ImageIcon doInBackground() throws Exception {
+
+            BufferedImage imagem = ImageIO.read(
+                URI.create(faixa.capaUrl).toURL()
+            );
+
+            if (imagem == null) {
+                return null;
+            }
+
+            Image reduzida = imagem.getScaledInstance(
+                90, 90, Image.SCALE_SMOOTH
+            );
+
+            return new ImageIcon(reduzida);
+        }
+
+        @Override
+        protected void done() {
+            try {
+                ImageIcon icone = get();
+
+                if (icone != null) {
+                    jLCapa.setIcon(icone);
+                    jLCapa.setText("");
+                } else {
+                    jLCapa.setText("♪");
+                }
+
+            } catch (Exception e) {
+                jLCapa.setText("♪");
+            }
+        }
+
+    }.execute();
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -26,19 +112,40 @@ public class Tela_ResultadoPesq extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        jLCapa = new javax.swing.JLabel();
+        jLTitulo = new javax.swing.JLabel();
+        jLArtista = new javax.swing.JLabel();
+        jLDuracao = new javax.swing.JLabel();
+        jBPlay = new javax.swing.JButton();
+
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLCapa.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLCapa.setText("Capa");
+        add(jLCapa, new org.netbeans.lib.awtextra.AbsoluteConstraints(9, 11, 70, 70));
+
+        jLTitulo.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLTitulo.setText("Titulo");
+        add(jLTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 10, 310, 20));
+
+        jLArtista.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLArtista.setText("Artista");
+        add(jLArtista, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 30, 310, 20));
+
+        jLDuracao.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        jLDuracao.setText("Duração");
+        add(jLDuracao, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 50, 310, -1));
+
+        jBPlay.setText("Play");
+        add(jBPlay, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 20, 67, 60));
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBPlay;
+    private javax.swing.JLabel jLArtista;
+    private javax.swing.JLabel jLCapa;
+    private javax.swing.JLabel jLDuracao;
+    private javax.swing.JLabel jLTitulo;
     // End of variables declaration//GEN-END:variables
 }
