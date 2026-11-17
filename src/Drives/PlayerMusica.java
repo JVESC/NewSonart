@@ -17,6 +17,7 @@ import javafx.embed.swing.JFXPanel;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
+import java.nio.file.DirectoryStream;
 
 import javax.swing.SwingUtilities;
 
@@ -370,4 +371,41 @@ public class PlayerMusica {
             SwingUtilities.invokeLater(() -> callback.accept(mensagem));
         }
     }
+    
+    public void testeLimparCache() {
+    String base = System.getenv("LOCALAPPDATA");
+
+    if (base == null || base.isBlank()) {
+        base = System.getProperty("user.home");
+    }
+
+    Path pasta = Path.of(base, "Sonart", "cache");
+
+    try {
+        if (!Files.exists(pasta)) {
+            System.out.println("Pasta de cache não existe.");
+            return;
+        }
+
+        int arquivosRemovidos = 0;
+
+        try (DirectoryStream<Path> arquivos =
+                Files.newDirectoryStream(pasta, "*.mp3")) {
+
+            for (Path arquivo : arquivos) {
+                Files.deleteIfExists(arquivo);
+                arquivosRemovidos++;
+            }
+        }
+
+        System.out.println("Cache limpo!");
+        System.out.println("Arquivos de áudio removidos: "
+                + arquivosRemovidos);
+
+    } catch (IOException e) {
+        System.err.println("Erro ao limpar o cache: " + e.getMessage());
+    }
+}
+    
+    
 }

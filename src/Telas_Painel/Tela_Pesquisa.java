@@ -263,8 +263,6 @@ private JLabel lblStatus;
 
         setPreferredSize(new java.awt.Dimension(643, 680));
 
-        jTextField1.setText("jTextField1");
-
         jBPesq.setText("Pesquisar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
