@@ -46,11 +46,11 @@
               </Group>
               <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jTFNome" max="32767" attributes="0"/>
-                  <Component id="jBCadastrar" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jTFRepetir" min="-2" pref="300" max="-2" attributes="0"/>
-                  <Component id="jTFSenha" alignment="0" max="32767" attributes="0"/>
-                  <Component id="jTFEmail" alignment="0" max="32767" attributes="0"/>
+                  <Component id="tfNome" max="32767" attributes="0"/>
+                  <Component id="btCadastrar" alignment="0" max="32767" attributes="0"/>
+                  <Component id="tfRepetirSenha" min="-2" pref="300" max="-2" attributes="0"/>
+                  <Component id="tfSenha" alignment="0" max="32767" attributes="0"/>
+                  <Component id="tfEmail" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
           </Group>
@@ -64,25 +64,25 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabelNome" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jTFNome" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="tfNome" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="44" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jTFEmail" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="tfEmail" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabelEmail" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jTFSenha" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="tfSenha" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabelSenha" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jTFRepetir" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="tfRepetirSenha" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabelRepetir" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
-              <Component id="jBCadastrar" min="-2" pref="51" max="-2" attributes="0"/>
+              <Component id="btCadastrar" min="-2" pref="51" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -97,7 +97,7 @@
         <Property name="text" type="java.lang.String" value="Nome:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTFNome">
+    <Component class="javax.swing.JTextField" name="tfNome">
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelEmail">
       <Properties>
@@ -107,7 +107,7 @@
         <Property name="text" type="java.lang.String" value="Email:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTFEmail">
+    <Component class="javax.swing.JTextField" name="tfEmail">
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelSenha">
       <Properties>
@@ -117,7 +117,7 @@
         <Property name="text" type="java.lang.String" value="Inserir senha:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTFSenha">
+    <Component class="javax.swing.JTextField" name="tfSenha">
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelRepetir">
       <Properties>
@@ -127,9 +127,9 @@
         <Property name="text" type="java.lang.String" value="Repetir senha:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTFRepetir">
+    <Component class="javax.swing.JTextField" name="tfRepetirSenha">
     </Component>
-    <Component class="javax.swing.JButton" name="jBCadastrar">
+    <Component class="javax.swing.JButton" name="btCadastrar">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI" size="18" style="1"/>
@@ -140,7 +140,7 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBCadastrarActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btCadastrarActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jBVoltar">

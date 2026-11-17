@@ -37,9 +37,30 @@ public class DiscoVinil extends javax.swing.JPanel {
         initComponents();
         setOpaque(false);
         setPreferredSize(new Dimension(420, 340));
-        try {
-            vinilPng = ImageIO.read(getClass().getResource("/imagens/vinil.png"));
-        } catch (Exception e) { e.printStackTrace(); }
+      //  try {
+        //    vinilPng = ImageIO.read(getClass().getResource("/imagens/vinil.png"));
+    //    } catch (Exception e) { e.printStackTrace(); }
+    
+    try {
+    var recurso = getClass().getResource("/imagens/vinil.png");
+
+    if (recurso == null) {
+        throw new IllegalStateException(
+            "Imagem não encontrada: /imagens/vinil.png"
+        );
+    }
+
+    vinilPng = ImageIO.read(recurso);
+
+    if (vinilPng == null) {
+        throw new IllegalStateException(
+            "Não foi possível decodificar vinil.png"
+        );
+    }
+
+} catch (Exception e) {
+    e.printStackTrace();
+}
 
         timer = new Timer(16, e -> atualizar());
     }

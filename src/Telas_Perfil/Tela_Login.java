@@ -3,10 +3,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package Telas_Perfil;
+import Dados.Conexao;
 import Telas_Player.Dashboard;
 import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import javax.swing.JOptionPane;
+import java.sql.SQLException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.PreparedStatement;
+
 /**
  *
  * @author aluno
@@ -128,15 +134,40 @@ public class Tela_Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBLoginActionPerformed
-    /*
-        if(jTFEmail.getText().isEmpty() || jTFSenha.getText().isEmpty()){
+    
+        String email = jTFEmail.getText().trim();
+        String senha = jTFSenha.getText().trim();
+        if(email.isEmpty() || senha.isEmpty()){
             JOptionPane.showMessageDialog(null, "Não deixe nenhum campo vazio", "Campos Vazios", JOptionPane.WARNING_MESSAGE);
             return;
         }
-    */
-    Dashboard board = new Dashboard();
-    board.setVisible(true);
-    this.dispose();
+        
+        String SQL = "SELECT* FROM usuario WHERE email = ? AND senha_hash = ?";
+        
+        try(Connection conexao = Conexao.abrir();
+            PreparedStatement comando = conexao.prepareStatement(SQL);
+            ) {
+            
+             comando.setString(1, email);
+             comando.setString(2, senha); 
+             
+            try (ResultSet rs = comando.executeQuery()) {
+            if (rs.next()) {
+                JOptionPane.showMessageDialog(null, "Login realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                Dashboard board = new Dashboard();
+                board.setVisible(true);
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, "E-mail ou senha incorretos.", "Erro de Login", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        
+            
+        } catch (SQLException e) {
+           JOptionPane.showMessageDialog(null, "Erro ao conectar com o Banco de Dados", "Erro de Login", JOptionPane.ERROR_MESSAGE); 
+        }
+    
+   
     }//GEN-LAST:event_jBLoginActionPerformed
 
     private void jBVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBVoltarActionPerformed

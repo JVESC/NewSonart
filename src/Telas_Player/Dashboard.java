@@ -147,6 +147,7 @@ public class Dashboard extends javax.swing.JFrame {
         jBPesq.addActionListener(this::jBPesqActionPerformed);
 
         jBConta.setText("Conta");
+        jBConta.addActionListener(this::jBContaActionPerformed);
 
         jBADM.setText("ADM");
         jBADM.addActionListener(this::jBADMActionPerformed);
@@ -186,7 +187,7 @@ public class Dashboard extends javax.swing.JFrame {
                         .addComponent(jBBibli))
                     .addComponent(jBADM, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPCentral, javax.swing.GroupLayout.DEFAULT_SIZE, 726, Short.MAX_VALUE))
+                .addComponent(jPCentral, javax.swing.GroupLayout.DEFAULT_SIZE, 730, Short.MAX_VALUE))
         );
 
         pack();
@@ -200,6 +201,10 @@ public class Dashboard extends javax.swing.JFrame {
     private void jBADMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBADMActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jBADMActionPerformed
+
+    private void jBContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBContaActionPerformed
+            abrirTela("conta");
+    }//GEN-LAST:event_jBContaActionPerformed
 
     /**
      * @param args the command line arguments

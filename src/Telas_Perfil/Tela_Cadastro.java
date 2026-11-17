@@ -1,8 +1,13 @@
 
 package Telas_Perfil;
+import Telas_Player.Dashboard;
 import com.formdev.flatlaf.FlatDarkLaf;
 import javax.swing.JOptionPane;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import java.sql.Connection;
+import Dados.Conexao;
+import java.sql.SQLException;
+import java.sql.PreparedStatement;
 /**
  *
  * @author aluno
@@ -14,11 +19,11 @@ public class Tela_Cadastro extends javax.swing.JFrame {
      */
     public Tela_Cadastro() {
         initComponents();
-        jBCadastrar.putClientProperty("FlatLaf.style", "arc: 10");
-        jTFEmail.putClientProperty("FlatLaf.style", "arc: 10");
-        jTFNome.putClientProperty("FlatLaf.style", "arc: 10");
-        jTFRepetir.putClientProperty("FlatLaf.style", "arc: 10");
-        jTFSenha.putClientProperty("FlatLaf.style", "arc: 10");
+        btCadastrar.putClientProperty("FlatLaf.style", "arc: 10");
+        tfEmail.putClientProperty("FlatLaf.style", "arc: 10");
+        tfNome.putClientProperty("FlatLaf.style", "arc: 10");
+        tfRepetirSenha.putClientProperty("FlatLaf.style", "arc: 10");
+        tfSenha.putClientProperty("FlatLaf.style", "arc: 10");
         jBVoltar.putClientProperty("FlatLaf.style", "arc: 10");
         
         //botão voltar
@@ -44,14 +49,14 @@ public class Tela_Cadastro extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabelNome = new javax.swing.JLabel();
-        jTFNome = new javax.swing.JTextField();
+        tfNome = new javax.swing.JTextField();
         jLabelEmail = new javax.swing.JLabel();
-        jTFEmail = new javax.swing.JTextField();
+        tfEmail = new javax.swing.JTextField();
         jLabelSenha = new javax.swing.JLabel();
-        jTFSenha = new javax.swing.JTextField();
+        tfSenha = new javax.swing.JTextField();
         jLabelRepetir = new javax.swing.JLabel();
-        jTFRepetir = new javax.swing.JTextField();
-        jBCadastrar = new javax.swing.JButton();
+        tfRepetirSenha = new javax.swing.JTextField();
+        btCadastrar = new javax.swing.JButton();
         jBVoltar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -69,12 +74,12 @@ public class Tela_Cadastro extends javax.swing.JFrame {
         jLabelRepetir.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabelRepetir.setText("Repetir senha:");
 
-        jBCadastrar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jBCadastrar.setText("Cadastrar");
-        jBCadastrar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jBCadastrar.addActionListener(new java.awt.event.ActionListener() {
+        btCadastrar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btCadastrar.setText("Cadastrar");
+        btCadastrar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btCadastrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBCadastrarActionPerformed(evt);
+                btCadastrarActionPerformed(evt);
             }
         });
 
@@ -105,11 +110,11 @@ public class Tela_Cadastro extends javax.swing.JFrame {
                                 .addComponent(jLabelEmail)))))
                 .addGap(69, 69, 69)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTFNome)
-                    .addComponent(jBCadastrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTFRepetir, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTFSenha)
-                    .addComponent(jTFEmail))
+                    .addComponent(tfNome)
+                    .addComponent(btCadastrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tfRepetirSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfSenha)
+                    .addComponent(tfEmail))
                 .addGap(47, 47, 47))
         );
         layout.setVerticalGroup(
@@ -120,21 +125,21 @@ public class Tela_Cadastro extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelNome)
-                    .addComponent(jTFNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTFEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelEmail))
                 .addGap(51, 51, 51)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTFSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelSenha))
                 .addGap(56, 56, 56)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTFRepetir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfRepetirSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelRepetir))
                 .addGap(66, 66, 66)
-                .addComponent(jBCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btCadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(36, 36, 36))
         );
 
@@ -142,13 +147,45 @@ public class Tela_Cadastro extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jBCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCadastrarActionPerformed
-      
-       if(jTFEmail.getText().isEmpty() || jTFNome.getText().isEmpty() || jTFRepetir.getText().isEmpty() || jTFSenha.getText().isEmpty()){
+    private void btCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarActionPerformed
+     
+        String nome = tfNome.getText().trim();
+        String email = tfEmail.getText().trim();
+        String senha = tfSenha.getText().trim();
+        String repetirSenha = tfRepetirSenha.getText().trim();
+        
+       if(nome.isEmpty() || email.isEmpty() || senha.isEmpty() || repetirSenha.isEmpty()){
            JOptionPane.showMessageDialog(null, "Não deixe nenhum campo vazio", "Campos Vazios", JOptionPane.WARNING_MESSAGE);
            return;
        }
-    }//GEN-LAST:event_jBCadastrarActionPerformed
+       
+       if(!senha.equals(repetirSenha)){
+           JOptionPane.showMessageDialog(null, "A senha deve ser a mesma nos campos SENHA e REPETIR SENHA", "Erro de Digitação", JOptionPane.WARNING_MESSAGE);
+           return;
+       }
+       
+       String SQL = "INSERT INTO usuario(nome, email, senha_hash) VALUES(?,?,?)";
+        try(Connection conexao = Conexao.abrir();
+            PreparedStatement comando = conexao.prepareStatement(SQL)    ) {
+            
+            comando.setString(1, nome);
+            comando.setString(2, email);
+            comando.setString(3, senha);
+            
+            int linhasGuardadas = comando.executeUpdate();
+            if(linhasGuardadas  > 0){
+                JOptionPane.showMessageDialog(null, "Cadastro feito com sucesso", "Cadastro", JOptionPane.DEFAULT_OPTION);
+                
+                Dashboard board = new Dashboard();
+                board.setVisible(true);
+                this.dispose();
+            }
+            
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro de Conexão", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+       
+    }//GEN-LAST:event_btCadastrarActionPerformed
 
     private void jBVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBVoltarActionPerformed
       Tela_Inicio inicio = new Tela_Inicio();
@@ -175,15 +212,15 @@ public class Tela_Cadastro extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jBCadastrar;
+    private javax.swing.JButton btCadastrar;
     private javax.swing.JButton jBVoltar;
     private javax.swing.JLabel jLabelEmail;
     private javax.swing.JLabel jLabelNome;
     private javax.swing.JLabel jLabelRepetir;
     private javax.swing.JLabel jLabelSenha;
-    private javax.swing.JTextField jTFEmail;
-    private javax.swing.JTextField jTFNome;
-    private javax.swing.JTextField jTFRepetir;
-    private javax.swing.JTextField jTFSenha;
+    private javax.swing.JTextField tfEmail;
+    private javax.swing.JTextField tfNome;
+    private javax.swing.JTextField tfRepetirSenha;
+    private javax.swing.JTextField tfSenha;
     // End of variables declaration//GEN-END:variables
 }

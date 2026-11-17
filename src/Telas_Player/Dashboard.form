@@ -62,7 +62,7 @@
                   <Component id="jBADM" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPCentral" pref="726" max="32767" attributes="0"/>
+              <Component id="jPCentral" pref="730" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -130,6 +130,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Conta"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBContaActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jBADM">
       <Properties>
