@@ -88,7 +88,7 @@ public class Dashboard extends javax.swing.JFrame {
     
     private void configurarMenu() {
 
-    jItemAccConta.addActionListener(e ->
+    jBConta.addActionListener(e ->
         abrirTela("conta")
     );
     }
@@ -106,10 +106,8 @@ public class Dashboard extends javax.swing.JFrame {
         jBInicio = new javax.swing.JButton();
         jBBibli = new javax.swing.JButton();
         jBPesq = new javax.swing.JButton();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMConta = new javax.swing.JMenu();
-        jItemAccConta = new javax.swing.JMenuItem();
-        jItemHistorico = new javax.swing.JMenuItem();
+        jBConta = new javax.swing.JButton();
+        jBADM = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sonart");
@@ -121,7 +119,7 @@ public class Dashboard extends javax.swing.JFrame {
         jPPlay.setLayout(jPPlayLayout);
         jPPlayLayout.setHorizontalGroup(
             jPPlayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 381, Short.MAX_VALUE)
+            .addGap(0, 359, Short.MAX_VALUE)
         );
         jPPlayLayout.setVerticalGroup(
             jPPlayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -134,11 +132,11 @@ public class Dashboard extends javax.swing.JFrame {
         jPCentral.setLayout(jPCentralLayout);
         jPCentralLayout.setHorizontalGroup(
             jPCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 784, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jPCentralLayout.setVerticalGroup(
             jPCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 726, Short.MAX_VALUE)
         );
 
         jBInicio.setText("Inicio");
@@ -148,17 +146,10 @@ public class Dashboard extends javax.swing.JFrame {
         jBPesq.setText("Pesquisa");
         jBPesq.addActionListener(this::jBPesqActionPerformed);
 
-        jMConta.setText("Conta");
+        jBConta.setText("Conta");
 
-        jItemAccConta.setText("Acessar Conta");
-        jMConta.add(jItemAccConta);
-
-        jItemHistorico.setText("Historico Musical");
-        jMConta.add(jItemHistorico);
-
-        jMenuBar1.add(jMConta);
-
-        setJMenuBar(jMenuBar1);
+        jBADM.setText("ADM");
+        jBADM.addActionListener(this::jBADMActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -166,31 +157,36 @@ public class Dashboard extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jBBibli, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jBInicio, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jBPesq, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jBInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jBBibli, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jBPesq, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jBConta, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jBADM, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPCentral, javax.swing.GroupLayout.DEFAULT_SIZE, 808, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPCentral, javax.swing.GroupLayout.DEFAULT_SIZE, 784, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPPlay, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPPlay, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPPlay, javax.swing.GroupLayout.DEFAULT_SIZE, 727, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(80, 80, 80)
-                .addComponent(jBInicio)
-                .addGap(50, 50, 50)
-                .addComponent(jBBibli)
-                .addGap(52, 52, 52)
-                .addComponent(jBPesq)
-                .addContainerGap(461, Short.MAX_VALUE))
+            .addComponent(jPPlay, javax.swing.GroupLayout.DEFAULT_SIZE, 765, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPCentral, javax.swing.GroupLayout.DEFAULT_SIZE, 715, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jBConta, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jBPesq, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jBInicio)
+                        .addComponent(jBBibli))
+                    .addComponent(jBADM, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPCentral, javax.swing.GroupLayout.DEFAULT_SIZE, 726, Short.MAX_VALUE))
         );
 
         pack();
@@ -200,6 +196,10 @@ public class Dashboard extends javax.swing.JFrame {
     private void jBPesqActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBPesqActionPerformed
             abrirTela("pesquisa");
     }//GEN-LAST:event_jBPesqActionPerformed
+
+    private void jBADMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBADMActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jBADMActionPerformed
 
     /**
      * @param args the command line arguments
@@ -216,13 +216,11 @@ public class Dashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBADM;
     private javax.swing.JButton jBBibli;
+    private javax.swing.JButton jBConta;
     private javax.swing.JButton jBInicio;
     private javax.swing.JButton jBPesq;
-    private javax.swing.JMenuItem jItemAccConta;
-    private javax.swing.JMenuItem jItemHistorico;
-    private javax.swing.JMenu jMConta;
-    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPCentral;
     private javax.swing.JPanel jPPlay;
     // End of variables declaration//GEN-END:variables

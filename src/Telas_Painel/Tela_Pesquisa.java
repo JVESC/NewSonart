@@ -261,9 +261,12 @@ private JLabel lblStatus;
         jTextField1 = new javax.swing.JTextField();
         jBPesq = new javax.swing.JButton();
 
-        setPreferredSize(new java.awt.Dimension(643, 680));
+        setPreferredSize(new java.awt.Dimension(808, 726));
+
+        jTextField1.setFont(new java.awt.Font("Arial Black", 0, 12)); // NOI18N
 
         jBPesq.setText("Pesquisar");
+        jBPesq.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -271,7 +274,7 @@ private JLabel lblStatus;
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(31, 31, 31)
-                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 457, Short.MAX_VALUE)
+                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 630, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(jBPesq)
                 .addGap(45, 45, 45))
@@ -281,9 +284,9 @@ private JLabel lblStatus;
             .addGroup(layout.createSequentialGroup()
                 .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jBPesq))
-                .addContainerGap(614, Short.MAX_VALUE))
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBPesq, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(637, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
