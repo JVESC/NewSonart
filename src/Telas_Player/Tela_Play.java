@@ -34,6 +34,9 @@ public class Tela_Play extends javax.swing.JPanel {
 private DiscoVinil vinil;
     private final PlayerMusica player = new PlayerMusica();
     private final Map<String, BufferedImage> cacheCapas = new HashMap<>();
+    private java.util.function.Consumer<Faixa> acaoExpandirLetra;
+    private java.util.function.Consumer<Double> acaoAtualizarTempo;
+    
  
     private List<Faixa> fila = new ArrayList<>();
     private int indice = -1;
@@ -41,6 +44,7 @@ private DiscoVinil vinil;
     private boolean faixaCarregada = false;   // o player já recebeu a faixa atual?
     private int duracaoSeg = 0;
     private javax.swing.Timer timerUI;
+    private Faixa faixaAtual;
  
     public Tela_Play() {
         initComponents();
@@ -54,6 +58,35 @@ private DiscoVinil vinil;
         configurarControles();
         carregarFila();
     }
+    
+    private void atualizarPreviaLetra(Faixa faixa) {
+    if (faixa == null
+            || faixa.letraSincronizada == null
+            || faixa.letraSincronizada.isBlank()) {
+
+        jTPreviaLetra.setText("Letra não disponível.");
+        return;
+    }
+
+    String letra = faixa.letraSincronizada;
+
+    // Remove os timestamps da letra
+    letra = letra.replaceAll("\\[\\d{2}:\\d{2}\\.\\d{2,3}\\]", "");
+
+    jTPreviaLetra.setText(letra.trim());
+    jTPreviaLetra.setCaretPosition(0);
+}
+    public void setAcaoExpandirLetra(
+        java.util.function.Consumer<Faixa> acao) {
+
+    this.acaoExpandirLetra = acao;
+}
+    
+    public void setAcaoAtualizarTempo(
+        java.util.function.Consumer<Double> acao) {
+
+    this.acaoAtualizarTempo = acao;
+}
  
     // ---------------- configuração dos controles ----------------
  
@@ -69,9 +102,16 @@ private DiscoVinil vinil;
  
         // a cada 0,5 s o slider acompanha o tempo real do player
         timerUI = new javax.swing.Timer(500, e -> {
-            if (!jSTempo.getValueIsAdjusting()) {
-                jSTempo.setValue((int) player.getTempoSeg());
-            }
+
+        double tempoAtual = player.getTempoSeg();
+
+        if (!jSTempo.getValueIsAdjusting()) {
+            jSTempo.setValue((int) tempoAtual);
+        }
+
+        if (acaoAtualizarTempo != null) {
+            acaoAtualizarTempo.accept(tempoAtual);
+        }
         });
  
         // slider mexeu (timer ou usuário): atualiza agulha e rótulo de tempo
@@ -107,6 +147,15 @@ private DiscoVinil vinil;
             pararVisual();
             lblArtista.setText("Erro ao tocar (veja o Output)");
         });
+        
+        jBExpandirLetra.addActionListener(e -> {
+    if (faixaAtual != null && acaoExpandirLetra != null) {
+        acaoExpandirLetra.accept(faixaAtual);
+    }
+});
+        
+        
+        
     }
  
     // ---------------- fila (vem do banco) ----------------
@@ -144,6 +193,8 @@ private DiscoVinil vinil;
         int n = fila.size();
         indice = ((i % n) + n) % n;
         Faixa f = fila.get(indice);
+        faixaAtual = f;
+        atualizarPreviaLetra(f);
  
         player.parar();
         faixaCarregada = false;
@@ -333,6 +384,8 @@ private DiscoVinil vinil;
         }
     }
 }
+    
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -345,7 +398,13 @@ private DiscoVinil vinil;
         lblTitulo = new javax.swing.JLabel();
         lblArtista = new javax.swing.JLabel();
         lblTempo = new javax.swing.JLabel();
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
+        jBMenu = new javax.swing.JButton();
+        jBCurtir = new javax.swing.JButton();
+        jPLetra = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTPreviaLetra = new javax.swing.JTextArea();
+        jBExpandirLetra = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(420, 700));
 
@@ -364,18 +423,60 @@ private DiscoVinil vinil;
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 327, Short.MAX_VALUE)
+            .addGap(0, 270, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 310, Short.MAX_VALUE)
+            .addGap(0, 226, Short.MAX_VALUE)
         );
 
+        lblTitulo.setFont(new java.awt.Font("Adwaita Sans", 1, 14)); // NOI18N
         lblTitulo.setText("Nada a Mostrar");
 
+        lblArtista.setFont(new java.awt.Font("Adwaita Sans", 0, 12)); // NOI18N
         lblArtista.setText("Nada a Mostrar");
 
         lblTempo.setText("Nada a Mostrar");
+
+        jBMenu.setText("jButton1");
+
+        jBCurtir.setText("Curtir");
+
+        jLabel1.setText("Letra Musica:");
+
+        jTPreviaLetra.setEditable(false);
+        jTPreviaLetra.setColumns(20);
+        jTPreviaLetra.setRows(5);
+        jScrollPane1.setViewportView(jTPreviaLetra);
+
+        jBExpandirLetra.setText("Expandir");
+
+        javax.swing.GroupLayout jPLetraLayout = new javax.swing.GroupLayout(jPLetra);
+        jPLetra.setLayout(jPLetraLayout);
+        jPLetraLayout.setHorizontalGroup(
+            jPLetraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPLetraLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPLetraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPLetraLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jScrollPane1))
+                    .addGroup(jPLetraLayout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jBExpandirLetra)))
+                .addContainerGap())
+        );
+        jPLetraLayout.setVerticalGroup(
+            jPLetraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPLetraLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPLetraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jBExpandirLetra, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -384,47 +485,65 @@ private DiscoVinil vinil;
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addComponent(btnVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(28, 28, 28)
-                        .addComponent(btnPlay, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(29, 29, 29)
-                        .addComponent(btnAvancar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(24, 24, 24)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(lblArtista)
-                                .addComponent(lblTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(lblTempo)
-                                .addComponent(jSTempo, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jBMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(lblTempo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblTitulo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
+                                    .addComponent(lblArtista, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jBCurtir))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSTempo, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(50, 50, 50)
+                                .addComponent(btnVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnPlay, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnAvancar, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(24, 24, 24))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jPLetra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblTitulo)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addComponent(jBMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(32, 32, 32)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(38, 38, 38)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblTitulo)
+                    .addComponent(jBCurtir))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblArtista)
                 .addGap(29, 29, 29)
                 .addComponent(lblTempo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(27, 27, 27)
                 .addComponent(jSTempo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
+                .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnVoltar)
                     .addComponent(btnPlay)
-                    .addComponent(btnAvancar)
-                    .addComponent(btnVoltar))
-                .addContainerGap(367, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(filler1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnAvancar))
+                .addGap(18, 18, 18)
+                .addComponent(jPLetra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -433,9 +552,15 @@ private DiscoVinil vinil;
     private javax.swing.JButton btnAvancar;
     private javax.swing.JButton btnPlay;
     private javax.swing.JButton btnVoltar;
-    private javax.swing.Box.Filler filler1;
+    private javax.swing.JButton jBCurtir;
+    private javax.swing.JButton jBExpandirLetra;
+    private javax.swing.JButton jBMenu;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPLetra;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSlider jSTempo;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTPreviaLetra;
     private javax.swing.JLabel lblArtista;
     private javax.swing.JLabel lblTempo;
     private javax.swing.JLabel lblTitulo;

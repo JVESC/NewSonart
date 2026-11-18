@@ -18,6 +18,10 @@ public class Dashboard extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Dashboard.class.getName());
     private Tela_Play player;
     private CardLayout layoutCentral;
+    private Tela_Letra telaLetra;
+    private String telaAtual = "inicio";
+    private String telaAnteriorLetra = "inicio";
+    private boolean letraExpandida = false;
     
 
     /**
@@ -37,15 +41,20 @@ public class Dashboard extends javax.swing.JFrame {
     jPPlay.setLayout(new BorderLayout());
 
     player = new Tela_Play();
+
+    player.setAcaoExpandirLetra(this::abrirLetra);
     
+    player.setAcaoAtualizarTempo(tempo -> {
+    if (telaLetra != null && letraExpandida) {
+        telaLetra.atualizarTempo(tempo);
+    }
+    });
 
     jPPlay.add(player, BorderLayout.CENTER);
 
     jPPlay.revalidate();
     jPPlay.repaint();
-    
-    
-    }
+}
     
     
     private void configurarTelas() {
@@ -63,6 +72,12 @@ public class Dashboard extends javax.swing.JFrame {
     jPCentral.add(new Tela_Playlists(), "playlists");
     jPCentral.add(new Tela_Favoritas(), "favoritas");
     jPCentral.add(new Tela_Conta(), "conta");
+    
+    telaLetra = new Tela_Letra();
+
+    jPCentral.add(telaLetra, "letra");
+
+    telaLetra.setAcaoRecolher(this::recolherLetra);
 
     jBPesq.addActionListener(e ->
         abrirTela("pesquisa")
@@ -80,11 +95,14 @@ public class Dashboard extends javax.swing.JFrame {
     }
     
     private void abrirTela(String tela) {
+    letraExpandida = false;
+    telaAtual = tela;
+
     layoutCentral.show(jPCentral, tela);
-    
-     jPCentral.revalidate();
+
+    jPCentral.revalidate();
     jPCentral.repaint();
-    }
+}
     
     private void configurarMenu() {
 
@@ -92,6 +110,34 @@ public class Dashboard extends javax.swing.JFrame {
         abrirTela("conta")
     );
     }
+    
+    private void abrirLetra(Dados.Faixa faixa) {
+    if (faixa == null) return;
+
+    if (!letraExpandida) {
+        telaAnteriorLetra = telaAtual;
+    }
+
+    telaLetra.mostrarFaixa(faixa);
+
+    letraExpandida = true;
+
+    layoutCentral.show(jPCentral, "letra");
+
+    jPCentral.revalidate();
+    jPCentral.repaint();
+}
+
+private void recolherLetra() {
+    letraExpandida = false;
+
+    layoutCentral.show(jPCentral, telaAnteriorLetra);
+
+    telaAtual = telaAnteriorLetra;
+
+    jPCentral.revalidate();
+    jPCentral.repaint();
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -113,13 +159,14 @@ public class Dashboard extends javax.swing.JFrame {
         setTitle("Sonart");
         setResizable(false);
 
+        jPPlay.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPPlay.setPreferredSize(new java.awt.Dimension(380, 633));
 
         javax.swing.GroupLayout jPPlayLayout = new javax.swing.GroupLayout(jPPlay);
         jPPlay.setLayout(jPPlayLayout);
         jPPlayLayout.setHorizontalGroup(
             jPPlayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 359, Short.MAX_VALUE)
+            .addGap(0, 436, Short.MAX_VALUE)
         );
         jPPlayLayout.setVerticalGroup(
             jPPlayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -136,7 +183,7 @@ public class Dashboard extends javax.swing.JFrame {
         );
         jPCentralLayout.setVerticalGroup(
             jPCentralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 726, Short.MAX_VALUE)
+            .addGap(0, 660, Short.MAX_VALUE)
         );
 
         jBInicio.setText("Inicio");
@@ -166,17 +213,17 @@ public class Dashboard extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jBPesq, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jBConta, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
+                        .addComponent(jBConta, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jBADM, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPCentral, javax.swing.GroupLayout.DEFAULT_SIZE, 808, Short.MAX_VALUE))
+                    .addComponent(jPCentral, javax.swing.GroupLayout.DEFAULT_SIZE, 828, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPPlay, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPPlay, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPPlay, javax.swing.GroupLayout.DEFAULT_SIZE, 765, Short.MAX_VALUE)
+            .addComponent(jPPlay, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -187,7 +234,7 @@ public class Dashboard extends javax.swing.JFrame {
                         .addComponent(jBBibli))
                     .addComponent(jBADM, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPCentral, javax.swing.GroupLayout.DEFAULT_SIZE, 730, Short.MAX_VALUE))
+                .addComponent(jPCentral, javax.swing.GroupLayout.DEFAULT_SIZE, 660, Short.MAX_VALUE))
         );
 
         pack();

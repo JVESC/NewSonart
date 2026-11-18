@@ -13,8 +13,53 @@
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
   </AuxValues>
 
-  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">
-    <Property name="useNullLayout" type="boolean" value="false"/>
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" attributes="0">
+              <EmptySpace min="9" pref="9" max="-2" attributes="0"/>
+              <Component id="jLCapa" min="-2" pref="70" max="-2" attributes="0"/>
+              <EmptySpace min="21" pref="21" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jLTitulo" alignment="0" min="-2" pref="310" max="-2" attributes="0"/>
+                  <Component id="jLArtista" alignment="0" min="-2" pref="310" max="-2" attributes="0"/>
+                  <Component id="jLDuracao" alignment="0" min="-2" pref="310" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="172" max="32767" attributes="0"/>
+              <Component id="JBTocar" min="-2" pref="67" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jBFila" min="-2" pref="67" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
+                      <Component id="jLTitulo" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Component id="jLArtista" min="-2" pref="20" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                      <Component id="jLDuracao" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jBFila" alignment="3" min="-2" pref="60" max="-2" attributes="0"/>
+                              <Component id="JBTocar" alignment="3" min="-2" pref="60" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="jLCapa" min="-2" pref="70" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+              </Group>
+              <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
   </Layout>
   <SubComponents>
     <Component class="javax.swing.JLabel" name="jLCapa">
@@ -22,11 +67,6 @@
         <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="text" type="java.lang.String" value="Capa"/>
       </Properties>
-      <Constraints>
-        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="9" y="11" width="70" height="70"/>
-        </Constraint>
-      </Constraints>
     </Component>
     <Component class="javax.swing.JLabel" name="jLTitulo">
       <Properties>
@@ -35,11 +75,6 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Titulo"/>
       </Properties>
-      <Constraints>
-        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="100" y="10" width="310" height="20"/>
-        </Constraint>
-      </Constraints>
     </Component>
     <Component class="javax.swing.JLabel" name="jLArtista">
       <Properties>
@@ -48,11 +83,6 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Artista"/>
       </Properties>
-      <Constraints>
-        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="100" y="30" width="310" height="20"/>
-        </Constraint>
-      </Constraints>
     </Component>
     <Component class="javax.swing.JLabel" name="jLDuracao">
       <Properties>
@@ -61,21 +91,16 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Dura&#xe7;&#xe3;o"/>
       </Properties>
-      <Constraints>
-        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="100" y="50" width="310" height="-1"/>
-        </Constraint>
-      </Constraints>
     </Component>
-    <Component class="javax.swing.JButton" name="jBPlay">
+    <Component class="javax.swing.JButton" name="JBTocar">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Play"/>
+        <Property name="text" type="java.lang.String" value="Tocar"/>
       </Properties>
-      <Constraints>
-        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="670" y="20" width="67" height="60"/>
-        </Constraint>
-      </Constraints>
+    </Component>
+    <Component class="javax.swing.JButton" name="jBFila">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Fila"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

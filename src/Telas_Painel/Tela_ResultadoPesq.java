@@ -47,7 +47,7 @@ private java.util.List<Faixa> resultados;
     jLDuracao.setText(
         String.format("Duração: %02d:%02d", minutos, segundos)
     );
-    jBPlay.addActionListener(e -> {
+    JBTocar.addActionListener(e -> {
         if (player != null) {
             player.reproduzirMusica(faixa, resultados);
         }
@@ -116,33 +116,69 @@ private java.util.List<Faixa> resultados;
         jLTitulo = new javax.swing.JLabel();
         jLArtista = new javax.swing.JLabel();
         jLDuracao = new javax.swing.JLabel();
-        jBPlay = new javax.swing.JButton();
-
-        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        JBTocar = new javax.swing.JButton();
+        jBFila = new javax.swing.JButton();
 
         jLCapa.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLCapa.setText("Capa");
-        add(jLCapa, new org.netbeans.lib.awtextra.AbsoluteConstraints(9, 11, 70, 70));
 
         jLTitulo.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLTitulo.setText("Titulo");
-        add(jLTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 10, 310, 20));
 
         jLArtista.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLArtista.setText("Artista");
-        add(jLArtista, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 30, 310, 20));
 
         jLDuracao.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         jLDuracao.setText("Duração");
-        add(jLDuracao, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 50, 310, -1));
 
-        jBPlay.setText("Play");
-        add(jBPlay, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 20, 67, 60));
+        JBTocar.setText("Tocar");
+
+        jBFila.setText("Fila");
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(9, 9, 9)
+                .addComponent(jLCapa, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLArtista, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLDuracao, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 172, Short.MAX_VALUE)
+                .addComponent(JBTocar, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jBFila, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jLTitulo)
+                        .addGap(0, 0, 0)
+                        .addComponent(jLArtista, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(jLDuracao))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(11, 11, 11)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jBFila, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(JBTocar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLCapa, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(9, 9, 9))
+        );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jBPlay;
+    private javax.swing.JButton JBTocar;
+    private javax.swing.JButton jBFila;
     private javax.swing.JLabel jLArtista;
     private javax.swing.JLabel jLCapa;
     private javax.swing.JLabel jLDuracao;
